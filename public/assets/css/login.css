@@ -1,0 +1,194 @@
+.breadcrumb-wrapper {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background: #f8f9fa;
+  margin-bottom: 60px;
+}
+@media (min-width: 768px) {
+  .breadcrumb-wrapper {
+    margin-bottom: 80px;
+  }
+}
+@media (min-width: 992px) {
+  .breadcrumb-wrapper {
+    margin-bottom: 100px;
+  }
+}
+.row {
+  --bs-gutter-x: 1.875rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(var(--bs-gutter-y) * -1);
+  margin-right: calc(var(--bs-gutter-x) / -2);
+  margin-left: calc(var(--bs-gutter-x) / -2);
+}
+.account_login_form form span input[type="checkbox"],
+.input-radio span input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  margin-right: 2px;
+  position: relative;
+  top: 2px;
+}
+.account_login_form form .save_button button {
+  padding: 0 20px;
+  height: 30px;
+  line-height: 30px;
+  border: 0;
+  background: #333;
+  color: #fff;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+.account_login_form form .save_button button:hover {
+  background: #ea1c26;
+}
+.checkbox-default-more-text em {
+  margin-top: 16px;
+  display: block;
+}
+.error_form {
+  text-align: center;
+}
+.error_form .h1,
+.error_form h1 {
+  font-weight: 600;
+  color: #ea1c26;
+  font-size: 130px;
+  line-height: 120px;
+  letter-spacing: 4px;
+  margin: 0 0 30px;
+}
+@media (min-width: 768px) {
+  .error_form .h1,
+  .error_form h1 {
+    font-size: 200px;
+    letter-spacing: 10px;
+    line-height: 1;
+    margin: 0 0 18px;
+  }
+}
+.error_form .h4,
+.error_form h4 {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 17px;
+}
+@media (min-width: 768px) {
+  .error_form .h4,
+  .error_form h4 {
+    line-height: 30px;
+    margin-bottom: 19px;
+    font-size: 24px;
+  }
+}
+.error_form p {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 26px;
+  margin-bottom: 30px;
+}
+.error_form a {
+  color: #fff;
+  display: inline-block;
+  background: #666;
+  font-size: 12px;
+  font-weight: 700;
+  height: 40px;
+  line-height: 42px;
+  padding: 0 30px;
+  text-transform: uppercase;
+  margin-top: 35px;
+  border-radius: 3px;
+}
+.error_form a:hover {
+  background: #ea1c26;
+}
+.account_form.register {
+  margin-top: 60px;
+}
+@media (min-width: 768px) {
+  .account_form.register {
+    margin-top: 0;
+  }
+}
+.account_form .h3,
+.account_form h3 {
+  font-size: 28px;
+  text-transform: capitalize;
+  font-weight: 500;
+  line-height: 22px;
+  margin-bottom: 30px;
+}
+.account_form form {
+  border: 1px solid #ededed;
+  padding: 23px 20px 29px;
+  border-radius: 5px;
+}
+.account_form button {
+  background: #ea1c26;
+  border: 0;
+  color: #fff;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  height: 34px;
+  line-height: 24px;
+  padding: 5px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+.account_form button:hover {
+  background: #333;
+}
+.login_submit * {
+  display: block;
+}
+.breadcrumb-nav li {
+  display: inline-block;
+  margin-right: 30px;
+  position: relative;
+}
+.breadcrumb-nav li a {
+  color: #adb5bd;
+}
+.breadcrumb-nav li a:hover {
+  color: #ea1c26;
+}
+.breadcrumb-nav li .active {
+  color: #666;
+}
+.breadcrumb-nav li::after {
+  position: absolute;
+  content: "/";
+  left: calc(100% + 15px);
+}
+.breadcrumb-nav li:last-child {
+  margin-right: 0;
+}
+.breadcrumb-nav li:last-child::after {
+  display: none;
+}
+.checkbox-default-more-text em {
+  margin-top: 16px;
+  display: block;
+}
+.login_submit * {
+  display: block;
+}
+.account_login_form form span input[type="checkbox"],
+.input-radio span input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  margin-right: 2px;
+  position: relative;
+  top: 2px;
+}
+.product-variable-color label input:checked ~ span::after {
+  content: "";
+}

@@ -1,0 +1,235 @@
+.checkout_btn {
+  text-align: right;
+}
+.checkout_btn a {
+  background: #ea1c26;
+  font-size: 15px;
+  padding: 3px 14px;
+  line-height: 30px;
+  font-weight: 500;
+  display: inline-block;
+  text-transform: capitalize;
+  margin-bottom: 0;
+  color: #fff;
+}
+.checkout_btn a:hover {
+  background: #333;
+}
+.user-actions {
+  margin-bottom: 20px;
+}
+.user-actions .h3,
+.user-actions h3 {
+  font-size: 13px;
+  font-weight: 400;
+  background-color: #f7f6f7;
+  padding: 15px 10px;
+  border-top: 3px solid #ea1c26;
+  margin-bottom: 0;
+}
+.user-actions .h3 a,
+.user-actions h3 a {
+  color: #ea1c26;
+}
+.checkout_info {
+  border: 1px solid #eee;
+  margin-top: 25px;
+  padding: 20px 30px;
+}
+.checkout_info p {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+.form_group {
+  margin-bottom: 20px;
+}
+.form_group input[type="password"],
+.form_group input[type="text"] {
+  width: 350px !important;
+}
+.form_group button {
+  display: inline-block;
+  width: 80px;
+  background: #333;
+  border: 0;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+  transition: 0.3s;
+  margin-right: 20px;
+  cursor: pointer;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 3px;
+}
+.form_group button:hover {
+  background: #ea1c26;
+}
+.form_group.group_3 {
+  display: flex;
+  align-items: center;
+}
+.checkout_form .h3,
+.checkout_form h3 {
+  font-size: 16px;
+  line-height: 30px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  color: #fff;
+  background: #333;
+  font-weight: 500;
+}
+#checkout_coupon input[type="text"] {
+  background: 0 0;
+  border: 1px solid #eee;
+  width: 200px;
+  height: 45px;
+  font-size: 12px;
+  padding: 0 20px;
+  color: #666;
+}
+#checkout_coupon button {
+  width: 130px;
+  background: #333;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 0;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+#checkout_coupon button:hover {
+  background: #ea1c26;
+}
+.country_option {
+  width: 100%;
+}
+.country_option .list {
+  height: 150px;
+  overflow-y: scroll;
+}
+.order-notes {
+  margin-bottom: 53px;
+}
+@media (min-width: 768px) {
+  .order-notes {
+    margin-bottom: 0;
+  }
+}
+.order-notes label {
+  line-height: 13px;
+}
+.order-notes textarea {
+  border: 1px solid #eee;
+  border-radius: 0;
+  height: 100px;
+  max-width: 100%;
+  padding: 20px 20px;
+  background: 0 0;
+  font-size: 13px;
+  resize: none;
+  line-height: 1.6;
+  width: 100%;
+  color: #666;
+  outline: 0;
+}
+.order_table {
+  margin-bottom: 35px;
+}
+.order_table table thead tr th {
+  min-width: 50%;
+  text-align: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+}
+.order_table table tbody tr td {
+  min-width: 50%;
+  text-align: left;
+  padding: 15px 30px;
+  border-bottom: 1px solid #ddd;
+}
+.order_table table tfoot tr th {
+  min-width: 50%;
+  text-align: left;
+  padding: 15px 30px;
+  border-bottom: 1px solid #ddd;
+}
+.order_table table tfoot tr td {
+  min-width: 50%;
+  text-align: left;
+  padding: 15px 30px;
+  border-bottom: 1px solid #ddd;
+}
+.order_button button {
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 30px;
+  padding: 5px 10px;
+  text-transform: capitalize;
+  color: #fff;
+  background: #ea1c26;
+  font-weight: 500;
+  transition: 0.3s;
+  margin-bottom: 0;
+  border-radius: 5px;
+}
+.order_button button:hover {
+  background-color: #333;
+}
+.default-form-box label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+}
+.default-form-box label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+}
+.default-form-box label span {
+  color: #ea1c26;
+  font-size: 16px;
+}
+.default-form-box input[type="date"],
+.default-form-box input[type="email"],
+.default-form-box input[type="number"],
+.default-form-box input[type="password"],
+.default-form-box input[type="text"],
+.default-form-box textarea {
+  border: 1px solid #eee;
+  border-radius: 3px;
+  background: 0 0;
+  height: 40px;
+  width: 100%;
+  padding: 0 20px;
+  color: #666;
+  outline: 0;
+}
+.default-form-box input[type="date"]::placeholder,
+.default-form-box input[type="email"]::placeholder,
+.default-form-box input[type="number"]::placeholder,
+.default-form-box input[type="password"]::placeholder,
+.default-form-box input[type="text"]::placeholder,
+.default-form-box textarea::placeholder {
+  font-size: 14px;
+}
+.default-form-box input[type="date"]:focus,
+.default-form-box input[type="email"]:focus,
+.default-form-box input[type="number"]:focus,
+.default-form-box input[type="password"]:focus,
+.default-form-box input[type="text"]:focus,
+.default-form-box textarea:focus {
+  border-color: #ea1c26;
+}
+.default-form-box textarea {
+  height: 200px;
+  padding: 20px;
+}
