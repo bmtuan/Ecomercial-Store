@@ -1,135 +1,160 @@
+import axios from "axios";
 import { Component } from "react";
-
-class MyAccount extends Component{
-    render(){
-        return(
-            <div>
-        <div className="breadcrumb-section">
-          <div className="breadcrumb-wrapper">
-            <div className="container">
-              <div className="row">
-                <div className="col-12 d-flex justify-content-between justify-content-md-between  align-items-center flex-md-row flex-column">
-                  <h3 className="breadcrumb-title">My Account</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> {/* ...:::: End Breadcrumb Section:::... */}
-        {/* ...:::: Start Account Dashboard Section:::... */}
-        <div className="account_dashboard">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-12 col-md-3 col-lg-3">
-                {/* Nav tabs */}
-                <div className="dashboard_tab_button" data-aos="fade-up" data-aos-delay={0}>
-                  <ul role="tablist" className="nav flex-column dashboard-list">
-                    <li><a href="#dashboard" data-bs-toggle="tab" className="nav-link active">Dashboard</a></li>
-                    <li> <a href="#orders" data-bs-toggle="tab" className="nav-link">Orders</a></li>
-                    <li><a href="#address" data-bs-toggle="tab" className="nav-link">Addresses</a></li>
-                    <li><a href="#account-details" data-bs-toggle="tab" className="nav-link">Account details</a></li>
-                    <li><a href="login.html" className="nav-link">logout</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div className="col-sm-12 col-md-9 col-lg-9">
-                {/* Tab panes */}
-                <div className="tab-content dashboard_content" data-aos="fade-up" data-aos-delay={200}>
-                  <div className="tab-pane fade show active" id="dashboard">
-                    <h4>Dashboard </h4>
-                    <p>Bạn có thể kiểm tra và xem <a href="#">những đơn hàng đã đặt</a>, quản lí <a href="#">địa chỉ giao hàng</a> và <a href="#">thay đổi mặt khẩu và chỉnh sửa thông tin tài khoản.</a></p>
-                  </div>
-                  <div className="tab-pane fade" id="orders">
-                    <h4>Orders</h4>
-                    <div className="table_page table-responsive">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>Order</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Total</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>May 10, 2018</td>
-                            <td><span className="success">Completed</span></td>
-                            <td>$25.00 for 1 item </td>
-                            <td><a href="cart.html" className="view">view</a></td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>May 10, 2018</td>
-                            <td>Processing</td>
-                            <td>$17.00 for 1 item </td>
-                            <td><a href="cart.html" className="view">view</a></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div className="tab-pane" id="address">
-                    <p>The following addresses will be used on the checkout page by default.</p>
-                    <h5 className="billing-address">Billing address</h5>
-                    <a href="#" className="view">Edit</a>
-                    <p><strong>Bobby Jackson</strong></p>
-                    <address>
-                      Address: Your address goes here.
-                    </address>
-                  </div>
-                  <div className="tab-pane fade" id="account-details">
-                    <h3>Account details </h3>
-                    <div className="login">
-                      <div className="login_form_container">
-                        <div className="account_login_form">
-                          <form action="#">
-                            <p>Already have an account? <a href="#">Log in instead!</a></p>
-                            <div className="input-radio">
-                              <span className="custom-radio"><input type="radio" defaultValue={1} name="id_gender" /> Mr.</span>
-                              <span className="custom-radio"><input type="radio" defaultValue={1} name="id_gender" /> Mrs.</span>
-                            </div> <br />
-                            <div className="default-form-box mb-20">
-                              <label>First Name</label>
-                              <input type="text" name="first-name" />
-                            </div>
-                            <div className="default-form-box mb-20">
-                              <label>Last Name</label>
-                              <input type="text" name="last-name" />
-                            </div>
-                            <div className="default-form-box mb-20">
-                              <label>Email</label>
-                              <input type="text" name="email-name" />
-                            </div>
-                            <div className="default-form-box mb-20">
-                              <label>Password</label>
-                              <input type="password" name="user-password" />
-                            </div>
-                            <div className="default-form-box mb-20">
-                              <label>Birthdate</label>
-                              <input type="date" name="birthday" />
-                            </div>
-                            <span className="example">
-                              (E.g.: 05/31/1970)
-                            </span>
-                            <br />
-                            <div className="save_button primary_btn default_button">
-                              <button type="submit">Save</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> 
-      </div>
-        )
-    }
+import toast, { Toaster } from "react-hot-toast";
+import { isEmpty, map } from "lodash";
+// import ProgressBar from 'react-bootstrap/ProgressBar'
+class MyAccount extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			name: localStorage.getItem('name'),
+			email: localStorage.getItem('email'),
+			address: localStorage.getItem('address'),
+			phone: localStorage.getItem('phone'),
+			orders: [],
+		}
+	}
+	clear = (e) => {
+		e.preventDefault()
+		localStorage.removeItem('token');
+		localStorage.removeItem('info')
+		window.location.href = '/login'
+	}
+	componentDidMount() {
+		axios
+			.get("http://localhost/EcomercialStore/API/get_all_order")
+			.then((res) => {
+				const { response } = res.data;
+				this.setState({
+					orders: response.order.rows,
+				});
+			})
+			.catch((error) => console.log(error));
+	}
+	handleChange = (event) => {
+		if (event.target.name === 'name') this.setState({ name: event.target.value })
+		if (event.target.name === 'email') this.setState({ email: event.target.value })
+		if (event.target.name === 'address') this.setState({ address: event.target.value })
+		if (event.target.name === 'phone') this.setState({ phone: event.target.value })
+	}
+	handleSummit = (e) => {
+		localStorage.setItem('name', this.state.name)
+		localStorage.setItem('email', this.state.email)
+		localStorage.setItem('address', this.state.address)
+		localStorage.setItem('phone', this.state.phone)
+		return toast.success('Cập nhật thành công!!!')
+	}
+	viewStatus = () => {
+		toast.success('Xem thành công!!!')
+	}
+	render() {
+		// const name = localStorage.getItem('name')
+		const username = localStorage.getItem('username')
+		const { orders } = this.state
+		const listOrder = orders.filter((p) => p.username === username)
+		return (
+			<div>
+				{/* {console.log(this.state.info)} */}
+				<div className="breadcrumb-section">
+					<Toaster position='top-left'></Toaster>
+					<div className="breadcrumb-wrapper">
+						<div className="container">
+							<div className="row">
+								<div className="col-12 d-flex justify-content-between justify-content-md-between  align-items-center flex-md-row flex-column">
+									<h3 className="breadcrumb-title">Thông tin tài khoản</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="account_dashboard">
+					<div className="container">
+						<div className="row">
+							<div className="col-sm-12 col-md-3 col-lg-3">
+								<div className="dashboard_tab_button" data-aos="fade-up" data-aos-delay={0}>
+									<ul role="tablist" className="nav flex-column dashboard-list">
+										<li><a href="#dashboard" data-bs-toggle="tab" className="nav-link active">Trang chính</a></li>
+										<li> <a href="#orders" data-bs-toggle="tab" className="nav-link">Đơn hàng</a></li>
+										<li><a href="#account-details" data-bs-toggle="tab" className="nav-link">Thông tin cá nhân</a></li>
+										<li><a href="/" className="nav-link" onClick={(e) => this.clear(e)}>Đăng xuất</a></li>
+									</ul>
+								</div>
+							</div>
+							<div className="col-sm-12 col-md-9 col-lg-9">
+								<div className="tab-content dashboard_content" data-aos="fade-up" data-aos-delay={200}>
+									<div className="tab-pane fade show active" id="dashboard">
+										<h4>Trang chính</h4>
+										<p>Bạn có thể kiểm tra và xem <a href="#">những đơn hàng đã đặt</a>, quản lí <a href="#">địa chỉ giao hàng</a> và <a href="#">chỉnh sửa thông tin tài khoản.</a></p>
+									</div>
+									<div className="tab-pane fade" id="orders">
+										<h4>Đơn hàng</h4>
+										<div className="table_page table-responsive">
+											<table>
+												<thead>
+													<tr>
+														<th>Đơn hàng</th>
+														<th>Thời gian</th>
+														<th>Tổng</th>
+														<th>Hoạt động</th>
+													</tr>
+												</thead>
+												<tbody>
+													{!isEmpty(listOrder) && map(listOrder, (p, index) => (
+														<tr>
+															<td>{index}</td>
+															<td>{p?.time}</td>
+															<td>{p?.total / 1000}.000VND</td>
+															<td><button className="add-cart" onClick={() => this.viewStatus()}>Xem</button></td>
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div className="tab-pane fade" id="account-details">
+										<h3>Thông tin cá nhân</h3>
+										<div className="login">
+											<div className="login_form_container">
+												<div className="account_login_form">
+													<form>
+														<div className="input-radio">
+															<span className="custom-radio"><input type="radio" defaultValue={0} name="id_gender" checked /> Mr.</span>
+															<span className="custom-radio"><input type="radio" defaultValue={1} name="id_gender" /> Mrs.</span>
+														</div> <br />
+														<div className="default-form-box mb-20">
+															{/* {console.log(this.state.info)} */}
+															<label>Họ và tên</label>
+															<input pattern='^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]$' type="text" name="name" value={this.state.name} onChange={(e) => this.handleChange(e)} />
+														</div>
+														<div className="default-form-box mb-20">
+															<label>Email</label>
+															<input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="text" name="email" value={this.state.email} onChange={(e) => this.handleChange(e)} />
+														</div>
+														<div className="default-form-box mb-20">
+															<label>Địa chỉ</label><small>Địa chỉ này dùng để giao hàng</small>
+															<input type="text" name="address" value={this.state.address} onChange={(e) => this.handleChange(e)} />
+														</div>
+														<div className="default-form-box mb-20">
+															<label>Phone</label>
+															<input pattern="(84|0[3|5|7|8|9])+([0-9]{8})" type="text" name="phone" value={this.state.phone} onChange={(e) => this.handleChange(e)} />
+														</div>
+														<br />
+														<div className="save_button primary_btn default_button">
+															<button type="submit" onClick={(e) => this.handleSummit(e)}>Lưu</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div >
+		)
+	}
 }
 
 export default MyAccount

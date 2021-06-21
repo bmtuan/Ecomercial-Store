@@ -44,6 +44,9 @@ final class PDO {
     /**
      * exec query statement
      */
+    public function prepare($sql){
+        return $this->pdo->prepare($sql);
+    }
     public function query($sql) {
         $this->statement = $this->pdo->prepare($sql);
         $result = false;
@@ -63,7 +66,7 @@ final class PDO {
                 $result->num_rows = $this->statement->rowCount();
             }
         } catch (\PDOException $e) {
-            trigger_error('Error: ' . $e->getMessage() . ' Error Code : ' . $e->getCode() . ' <br />' . $sql);
+            trigger_error('Error: ' . $e->getMessage() . ' Error Code : ' . $e->getCode() . ' <br/>' . $sql);
             exit();
         }
 
@@ -79,7 +82,7 @@ final class PDO {
     }
 
     /**
-     *  claen data
+     *  clean data
      */
     public function escape($value) {
         $search = array("\\", "\0", "\n", "\r", "\x1a", "'", '"');

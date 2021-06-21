@@ -180,3 +180,6 @@ h6 {
 .table_page table tbody tr td.product_addcart a:hover {
   background: #333;
 }
+th.product_name {
+  width: 70%;
+}

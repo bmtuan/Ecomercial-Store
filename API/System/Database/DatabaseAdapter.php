@@ -7,13 +7,6 @@
  */
 namespace Database;
 
-/**
- * Class DatabaseAdapter for handel database query
- *
- * @author Mohammad Rahmani <rto1680@gmail.com>
- *
- * @package Database
- */
 class DatabaseAdapter {
     
     /**
@@ -50,10 +43,9 @@ class DatabaseAdapter {
         return $this->dbConnection->query($sql);
     }
     public function prepare($sql)
-    {
+    {   
         return $this->dbConnection->prepare($sql);
     }
-
     /**
      * @param $value
      * @return mixed

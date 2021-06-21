@@ -4,7 +4,7 @@
 function autoload($class) {
     // set file class
     $file = SYSTEM . str_replace('\\', '/', $class) . '.php';
-    // echo $file. '<br>';
+    // echo $file. '      ';
     if (file_exists($file))
         require_once $file;
     else

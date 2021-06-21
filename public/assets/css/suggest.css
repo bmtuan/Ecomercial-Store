@@ -1,0 +1,15 @@
+ul#list :hover{
+    background-color: rgb(0, 0, 0);
+}
+ul{
+    cursor: pointer;
+}
+ul.option {
+    background: rgb(177, 137, 137);
+    color: white;
+    position: absolute;
+    z-index: 9;
+}
+.list{
+    z-index: 9;
+}

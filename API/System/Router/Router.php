@@ -10,7 +10,6 @@ namespace Router;
 /**
  * Class Router For Handel Router
  *
- * @author Mohammad Rahmani <rto1680@gmail.com>
  *
  * @package Router
  */
@@ -184,10 +183,11 @@ class Router {
         // var_dump($this->router);
         if (!is_array($this->router) || empty($this->router)) 
             throw new \Exception('NON-Object Route Set');
-        // echo $this->router; 
+        // print_r($this->router); 
         $this->getMatchRoutersByRequestMethod();
         $this->getMatchRoutersByPattern($this->matchRouter);
         // var_dump($this->matchRouter);
+        // print_r($this->matchRouter);
 
         if (!$this->matchRouter || empty($this->matchRouter)) {
 			$this->sendNotFound();        

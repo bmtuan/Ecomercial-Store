@@ -10,7 +10,6 @@ import LoginPage from './pages/Login'
 import AccountPage from './pages/Account'
 import WishListPage from './pages/WishList'
 import CartPage from './pages/Cart'
-import CheckoutPage from "./pages/Checkout"
 import ShopListPage from './pages/ShopList'
 import DetailPage from './pages/Detail'
 function App(){
@@ -21,9 +20,8 @@ function App(){
       <Route path='/account' component={AccountPage}/>
       <Route path='/wishlist' component={WishListPage}/>
       <Route path='/cart' component={CartPage}/>
-      <Route path='/checkout' component={CheckoutPage}/>
       <Route path='/list' component={ShopListPage}/>
-      <Route path='/detail' component={DetailPage}/>
+      <Route path='/detail/:id' component={DetailPage}/>
     </Router>
   )
 }

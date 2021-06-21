@@ -23,7 +23,7 @@ class Catagory extends Component {
             <div className="row">
               <div className="col-lg-3 col-md-4 col-sm-6 col-12">
                 <a
-                  href="#"
+                  href="/list"
                   className="product-catagory-single"
                   data-aos="fade-up"
                   data-aos-delay={0}
@@ -42,7 +42,7 @@ class Catagory extends Component {
               </div>
               <div className="col-lg-3 col-md-4 col-sm-6 col-12">
                 <a
-                  href="#"
+                  href="/list"
                   className="product-catagory-single"
                   data-aos="fade-up"
                   data-aos-delay={200}
@@ -61,7 +61,7 @@ class Catagory extends Component {
               </div>
               <div className="col-lg-3 col-md-4 col-sm-6 col-12">
                 <a
-                  href="#"
+                  href="/list"
                   className="product-catagory-single"
                   data-aos="fade-up"
                   data-aos-delay={400}
@@ -80,7 +80,7 @@ class Catagory extends Component {
               </div>
               <div className="col-lg-3 col-md-4 col-sm-6 col-12">
                 <a
-                  href="#"
+                  href="/list"
                   className="product-catagory-single"
                   data-aos="fade-up"
                   data-aos-delay={600}
@@ -99,7 +99,7 @@ class Catagory extends Component {
               </div>
               <div className="col-lg-3 col-md-4 col-sm-6 col-12">
                 <a
-                  href="#"
+                  href="/list"
                   className="product-catagory-single"
                   data-aos="fade-up"
                   data-aos-delay={0}
@@ -118,7 +118,7 @@ class Catagory extends Component {
               </div>
               <div className="col-lg-3 col-md-4 col-sm-6 col-12">
                 <a
-                  href="#"
+                  href="/list"
                   className="product-catagory-single"
                   data-aos="fade-up"
                   data-aos-delay={200}

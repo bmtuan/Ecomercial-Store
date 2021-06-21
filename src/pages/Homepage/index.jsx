@@ -7,7 +7,7 @@ import NewProduct from '../../components/new_product'
 const HomePage =() =>{
     return(
       <div>
-        <Header/>
+        <Header></Header>
         <BestSeller/>
         <Catagory/>
         <SaleOff/>

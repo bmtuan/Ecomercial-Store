@@ -1,133 +1,242 @@
+import { faWizardsOfTheCoast } from "@fortawesome/free-brands-svg-icons";
+import axios from "axios";
+import { isEmpty, map, parseInt, times } from "lodash";
 import { Component } from "react";
+import toast, { Toaster } from 'react-hot-toast'
+class Cart extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: localStorage.getItem('username'),
+      wish: [],
+      product: [],
+    }
+    this.totalPrice = 0
+  }
+  componentDidMount() {
+    axios
+      .get("http://localhost/EcomercialStore/API/cart")
+      .then((res) => {
+        const { response } = res.data;
+        this.setState({
+          wish: response.cart.rows,
+        });
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get("http://localhost/EcomercialStore/API/product")
+      .then((res) => {
+        const { response } = res.data;
+        this.setState({
+          product: response.product.rows,
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+  deleteWish = (e) => {
+    toast.success('Xóa thành công!!')
+    console.log(e)
+    const wish = this.state.wish.filter((p) => p.id != e)
+    this.setState({
+      wish: wish
+    })
+    const config = {
+      method: "post",
+      url: `http://localhost/EcomercialStore/API/delete_cart`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { id: e },
+    };
+    axios(config)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err.response)
+      });
+  }
+  accept = (t) => {
+    const today = new Date();
+    const date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
+    const status = 'Trong kho'
+    const data = {
+      time: date,
+      status: status,
+      total: (this.totalPrice + 2000)/2,
+      username: this.state.username
+    }
+    console.log(data)
+    const config1 = {
+      method: "post",
+      url: `http://localhost/EcomercialStore/API/insert_order`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    axios(config1)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    const config = {
+      method: "post",
+      url: `http://localhost/EcomercialStore/API/delete_all_cart`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { username: this.state.username },
+    };
+    axios(config)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err.response)
+      });
+    this.setState({
+      wish: []
+    })
+    toast.success('Thanh toán thành công!!!', {
+      position: 'top-center'
+    })
+    toast.dismiss(t.id)
+  }
+  dismiss = (t) => {
+    toast.error('Thanh toán không thành công!!!', {
+      position: 'top-center'
+    })
+    toast.dismiss(t.id)
+  }
+  notify() {
+    toast((t) => (
+      <span>
+        Vui lòng xác nhận <b>thanh toán</b><br />
+        <button class='add-cart' onClick={() => this.accept(t)}>
+          Xác nhận
+        </button>
+        <button class='add-cart' onClick={() => this.dismiss(t)}>Hủy bỏ </button>
+      </span>
+    ), {
+      position: 'top-center',
+      duration: 10000,
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    });
+  }
+  render() {
+    const listId = this.state.wish.filter((p) => p.username === this.state.username).map((p) => p)
+    const { product } = this.state
+    listId.map((p) => {
+      var arr = product[p.id_product - 1]?.salePrice.split('.')
+      if (arr)
+        this.totalPrice += parseInt(arr[0]) * 1000 + parseInt(arr[1])
+    });
+    // this.setState({
+    //   totalPrice: totalPrice,
+    // })
 
-class Cart extends Component{
-    render(){
-        return(
-            <div>
-            <div className="breadcrumb-section">
-              <div className="breadcrumb-wrapper">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-12 d-flex justify-content-between justify-content-md-between  align-items-center flex-md-row flex-column">
-                      <h3 className="breadcrumb-title">Cart</h3>
-                      <div className="breadcrumb-nav">
-                        <nav aria-label="breadcrumb">
-                          <ul>
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
-                            <li className="active" aria-current="page">Cart</li>
-                          </ul>
-                        </nav>
+    return (
+      <div>
+        <Toaster position='top-left' />
+        <div className="breadcrumb-section">
+          <div className="breadcrumb-wrapper">
+            <div className="container">
+              <div className="row">
+                <div className="col-12 d-flex justify-content-between justify-content-md-between  align-items-center flex-md-row flex-column">
+                  <h3 className="breadcrumb-title">Cart</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="cart-section">
+          <div className="cart-table-wrapper" data-aos="fade-up" data-aos-delay={0}>
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <div className="table_desc">
+                    <div className="table_page table-responsive">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th className="product_remove" >Xóa</th>
+                            <th className="product_thumb">Ảnh</th>
+                            <th className="product_name">Sản phẩm</th>
+                            <th className="product-price">Giá</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {!isEmpty(listId) && !isEmpty(product) && map(listId, (id) => (
+                            <tr>
+                              <td className="product_remove"><button class='add-cart' onClick={(e) => this.deleteWish(id.id)}><i class="fas fa-trash"></i></button></td>
+                              <td className="product_thumb"><a href="product-details-default.html"><img src={product[id.id_product - 1]?.src} alt="" /></a></td>
+                              <td className="product_name"><a href="product-details-default.html">{product[id.id_product - 1]?.nameProduct}</a></td>
+                              <td className="product-price">{product[id.id_product - 1]?.salePrice}</td>
+                            </tr>
+                          ))
+                          }
+
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="cart_submit">
+                      <button type="submit">Cập nhật giỏ hàng</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="coupon_area">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-6 col-md-6">
+                  <div className="coupon_code left" data-aos="fade-up" data-aos-delay={200}>
+                    <h3>Mã giảm giá</h3>
+                    <div className="coupon_inner">
+                      <p>Nhập mã giảm giá của bạn</p>
+                      <input placeholder="Coupon code" type="text" />
+                      <button type="submit">Áp dụng</button>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-6 col-md-6">
+                  <div className="coupon_code right" data-aos="fade-up" data-aos-delay={400}>
+                    <h3>Hóa đơn</h3>
+                    <div className="coupon_inner">
+                      <div className="cart_subtotal">
+                        <p>Giá tiền sản phẩm</p>
+                        <p className="cart_amount">{parseInt(this.totalPrice / 1000)}.{parseInt(this.totalPrice % 1000)}.000VND</p>
+                      </div>
+                      <div className="cart_subtotal ">
+                        <p>Phí vận chuyển</p>
+                        <p className="cart_amount">1.000.000VND</p>
+                      </div>
+
+                      <div className="cart_subtotal">
+                        <p>Tổng</p>
+                        <p className="cart_amount">{parseInt((this.totalPrice + 1000) / 1000)}.{parseInt((this.totalPrice + 1000) % 1000)}.000VND</p>
+                      </div>
+                      <div className="checkout_btn">
+                        <button class='add-cart' onClick={() => this.notify()}>Thanh toán</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div> {/* ...:::: End Breadcrumb Section:::... */}
-            {/* ...:::: Start Cart Section:::... */}
-            <div className="cart-section">
-              {/* Start Cart Table */}
-              <div className="cart-table-wrapper" data-aos="fade-up" data-aos-delay={0}>
-                <div className="container">
-                  <div className="row">
-                    <div className="col-12">
-                      <div className="table_desc">
-                        <div className="table_page table-responsive">
-                          <table>
-                            {/* Start Cart Table Head */}
-                            <thead>
-                              <tr>
-                                <th className="product_remove">Delete</th>
-                                <th className="product_thumb">Image</th>
-                                <th className="product_name">Product</th>
-                                <th className="product-price">Price</th>
-                                <th className="product_quantity">Quantity</th>
-                                <th className="product_total">Total</th>
-                              </tr>
-                            </thead> {/* End Cart Table Head */}
-                            <tbody>
-                              {/* Start Cart Single Item*/}
-                              <tr>
-                                <td className="product_remove"><a href="#"><i className="fa fa-trash-o" /></a></td>
-                                <td className="product_thumb"><a href="product-details-default.html"><img src="assets/images/products_images/aments_products_image_1.jpg" alt="" /></a></td>
-                                <td className="product_name"><a href="product-details-default.html">Handbag fringilla</a></td>
-                                <td className="product-price">$65.00</td>
-                                <td className="product_quantity"><label>Quantity</label> <input min={1} max={100} defaultValue={1} type="number" /></td>
-                                <td className="product_total">$130.00</td>
-                              </tr> {/* End Cart Single Item*/}
-                              {/* Start Cart Single Item*/}
-                              <tr>
-                                <td className="product_remove"><a href="#"><i className="fa fa-trash-o" /></a></td>
-                                <td className="product_thumb"><a href="product-details-default.html"><img src="assets/images/products_images/aments_products_image_2.jpg" alt="" /></a></td>
-                                <td className="product_name"><a href="product-details-default.html">Handbags justo</a></td>
-                                <td className="product-price">$90.00</td>
-                                <td className="product_quantity"><label>Quantity</label> <input min={1} max={100} defaultValue={1} type="number" /></td>
-                                <td className="product_total">$180.00</td>
-                              </tr> {/* End Cart Single Item*/}
-                              {/* Start Cart Single Item*/}
-                              <tr>
-                                <td className="product_remove"><a href="#"><i className="fa fa-trash-o" /></a></td>
-                                <td className="product_thumb"><a href="product-details-default.html"><img src="assets/images/products_images/aments_products_image_3.jpg" alt="" /></a></td>
-                                <td className="product_name"><a href="product-details-default.html">Handbag elit</a></td>
-                                <td className="product-price">$80.00</td>
-                                <td className="product_quantity"><label>Quantity</label> <input min={1} max={100} defaultValue={1} type="number" /></td>
-                                <td className="product_total">$160.00</td>
-                              </tr> {/* End Cart Single Item*/}
-                            </tbody>
-                          </table>
-                        </div>
-                        <div className="cart_submit">
-                          <button type="submit">update cart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> {/* End Cart Table */}
-              {/* Start Coupon Start */}
-              <div className="coupon_area">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-lg-6 col-md-6">
-                      <div className="coupon_code left" data-aos="fade-up" data-aos-delay={200}>
-                        <h3>Coupon</h3>
-                        <div className="coupon_inner">
-                          <p>Enter your coupon code if you have one.</p>
-                          <input placeholder="Coupon code" type="text" />
-                          <button type="submit">Apply coupon</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-6 col-md-6">
-                      <div className="coupon_code right" data-aos="fade-up" data-aos-delay={400}>
-                        <h3>Cart Totals</h3>
-                        <div className="coupon_inner">
-                          <div className="cart_subtotal">
-                            <p>Subtotal</p>
-                            <p className="cart_amount">$215.00</p>
-                          </div>
-                          <div className="cart_subtotal ">
-                            <p>Shipping</p>
-                            <p className="cart_amount"><span>Flat Rate:</span> $255.00</p>
-                          </div>
-                          <a href="#">Calculate shipping</a>
-                          <div className="cart_subtotal">
-                            <p>Total</p>
-                            <p className="cart_amount">$215.00</p>
-                          </div>
-                          <div className="checkout_btn">
-                            <a href="/checkout">Proceed to Checkout</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> {/* End Coupon Start */}
-            </div> {/* ...:::: End Cart Section:::... */}
+            </div>
           </div>
-        )
-    }
+        </div>
+      </div>
+    )
+  }
 }
 
 export default Cart;

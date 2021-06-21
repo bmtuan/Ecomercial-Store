@@ -84,7 +84,7 @@ class Request {
      * @return string
      */
     public function getUrl() {
-        return str_replace('/web_project2/API','',$this->server('REQUEST_URI'));
+        return str_replace('/EcomercialStore/API','',$this->server('REQUEST_URI'));
     }
 
     /**

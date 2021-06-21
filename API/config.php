@@ -16,7 +16,7 @@ define('SYSTEM', SCRIPT . 'System/');
 define('CONTROLLERS', SCRIPT . 'Applications/Controllers/');
 define('MODELS', SCRIPT . 'Applications/Models/');
 define('UPLOAD', SCRIPT . 'Upload/');
-define('HOST_URL', 'http://localhost/web_project2/API');
+define('HOST_URL', 'http://localhost/EcomercialStore/API');
 
 // Config Database
 define('DATABASE', [

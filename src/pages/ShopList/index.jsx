@@ -1,11 +1,11 @@
 import Header from '../../components/header.jsx'
 import Footer from '../../components/footer.jsx'
 import ShopList from '../../components/shoplist'
-const ShopListPage =() =>{
+const ShopListPage =(props) =>{
     return(
       <div>
         <Header/>
-        <ShopList/>
+        <ShopList {...props} />
         <Footer/>
       </div>
     );

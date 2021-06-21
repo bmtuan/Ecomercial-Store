@@ -1,29 +1,103 @@
+import axios from "axios";
+import { isEmpty, map } from "lodash";
 import { Component } from "react";
+import toast, { Toaster } from 'react-hot-toast'
+class WishList extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: localStorage.getItem('username'),
+      wish: [],
+      product: [],
+    }
+  }
 
-class WishList extends Component{
-    render(){
-        return(
-            <div>
+  componentDidMount() {
+    axios
+      .get("http://localhost/EcomercialStore/API/wish")
+      .then((res) => {
+        const { response } = res.data;
+        this.setState({
+          wish: response.wish.rows,
+        });
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get("http://localhost/EcomercialStore/API/product")
+      .then((res) => {
+        const { response } = res.data;
+        this.setState({
+          product: response.product.rows,
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+  deleteWish = (e) => {
+    toast.success('Xóa thành công!!')
+    console.log(e)
+    const wish = this.state.wish.filter((p) => p.id != e)
+    this.setState({
+      wish: wish
+    })
+    const config = {
+      method: "post",
+      url: `http://localhost/EcomercialStore/API/delete_wish`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {id: e},
+    };
+    axios(config)
+      .then((res) => {
+        console.log(res)
+        // toast.success('Xóa thành công!!')
+      })
+      .catch((err) => {
+        console.log(err.response)
+      });
+  }
+  handleClickCart = (e) => {
+		const username = localStorage.getItem('username')
+		const data = {
+			username : username,
+			id_product : e
+		}
+		const config = {
+			method: "post",
+			url: `http://localhost/EcomercialStore/API/add_cart`,
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: data,
+		};
+		axios(config)
+			.then((res) => {
+				toast.success('Thêm thành công!!')
+				console.log(res)
+			})
+			.catch((err) => {
+				console.log(err.response)
+			});
+	}
+  render() {
+    const listId = this.state.wish.filter((p) => p.username === this.state.username).map((p) => p)
+    // console.log(product)
+    const { product } = this.state
+    // console.log(listId)
+    return (
+      <div>
         <div className="breadcrumb-section">
+          <Toaster position='top-left'></Toaster>
           <div className="breadcrumb-wrapper">
             <div className="container">
               <div className="row">
                 <div className="col-12 d-flex justify-content-between justify-content-md-between  align-items-center flex-md-row flex-column">
                   <h3 className="breadcrumb-title">Wishlist</h3>
-                  <div className="breadcrumb-nav">
-                    <nav aria-label="breadcrumb">
-                      <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
-                        <li className="active" aria-current="page">Wishlist</li>
-                      </ul>
-                    </nav>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div> 
+        </div>
         <div className="wishlist-section">
           <div className="wishlish-table-wrapper" data-aos="fade-up" data-aos-delay={0}>
             <div className="container">
@@ -32,45 +106,29 @@ class WishList extends Component{
                   <div className="table_desc">
                     <div className="table_page table-responsive">
                       <table>
-                        {/* Start Wishlist Table Head */}
                         <thead>
                           <tr>
-                            <th className="product_remove">Delete</th>
-                            <th className="product_thumb">Image</th>
-                            <th className="product_name">Product</th>
-                            <th className="product-price">Price</th>
-                            <th className="product_stock">Stock Status</th>
-                            <th className="product_addcart">Add To Cart</th>
+                            <th className="product_remove">Xóa</th>
+                            <th className="product_thumb">Hình ảnh</th>
+                            <th className="product_name">Sản phẩm</th>
+                            <th className="product-price">Giá</th>
+                            <th className="product_stock">Trạng thái kho</th>
+                            <th className="product_addcart">Hành động</th>
                           </tr>
-                        </thead> {/* End Cart Table Head */}
+                        </thead>
                         <tbody>
-                          {/* Start Wishlist Single Item*/}
-                          <tr>
-                            <td className="product_remove"><a href="#"><i class="far fa-trash-alt"></i></a></td>
-                            <td className="product_thumb"><a href="product-details-default.html"><img src="assets/images/products_images/aments_products_image_1.jpg" alt="" /></a></td>
-                            <td className="product_name"><a href="product-details-default.html">Handbag fringilla</a></td>
-                            <td className="product-price">$65.00</td>
-                            <td className="product_stock">In Stock</td>
-                            <td className="product_addcart"><a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">Add To Cart</a></td>
-                          </tr> {/* End Wishlist Single Item*/}
-                          {/* Start Wishlist Single Item*/}
-                          <tr>
-                            <td className="product_remove"><a href="#"><i class="far fa-trash-alt"></i></a></td>
-                            <td className="product_thumb"><a href="product-details-default.html"><img src="assets/images/products_images/aments_products_image_2.jpg" alt="" /></a></td>
-                            <td className="product_name"><a href="product-details-default.html">Handbags justo</a></td>
-                            <td className="product-price">$90.00</td>
-                            <td className="product_stock">In Stock</td>
-                            <td className="product_addcart"><a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">Add To Cart</a></td>
-                          </tr> {/* End Wishlist Single Item*/}
-                          {/* Start Wishlist Single Item*/}
-                          <tr>
-                            <td className="product_remove"><a href="#"><i class="far fa-trash-alt"></i></a></td>
-                            <td className="product_thumb"><a href="product-details-default.html"><img src="assets/images/products_images/aments_products_image_3.jpg" alt="" /></a></td>
-                            <td className="product_name"><a href="product-details-default.html">Handbag elit</a></td>
-                            <td className="product-price">$80.00</td>
-                            <td className="product_stock">In Stock</td>
-                            <td className="product_addcart"><a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">Add To Cart</a></td>
-                          </tr> {/* End Wishlist Single Item*/}
+
+                          {!isEmpty(listId) && !isEmpty(product) && map(listId, (id) => (
+                            <tr>
+                              <td className="product_remove" ><button class='add-cart' onClick={(e) => this.deleteWish(id.id)}><i class="fas fa-trash"></i></button></td>
+                              <td className="product_thumb"><a href="product-details-default.html"><img src={product[id.id_product - 1]?.src} alt="" /></a></td>
+                              <td className="product_name"><a href="product-details-default.html">{product[id.id_product - 1]?.nameProduct}</a></td>
+                              <td className="product-price">{product[id.id_product - 1]?.salePrice}</td>
+                              <td className="product_stock">Còn trong kho</td>
+                              <td className="product_addcart"><a onClick={(e) => this.handleClickCart(id.id_product)} data-bs-toggle="modal" data-bs-target="#modalAddcart">Thêm vào giỏ</a></td>
+                            </tr>
+                          ))
+                          }
                         </tbody>
                       </table>
                     </div>
@@ -81,8 +139,8 @@ class WishList extends Component{
           </div> {/* End Cart Table */}
         </div> {/* ...:::: End Wishlist Section:::... */}
       </div>
-        );
-    }
+    );
+  }
 }
 
 export default WishList;

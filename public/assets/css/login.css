@@ -192,3 +192,12 @@
 .product-variable-color label input:checked ~ span::after {
   content: "";
 }
+.alert{
+  color: #ea1c26;
+}
+.success{
+  color: rgb(30, 255, 0);
+}
+a{
+  text-decoration: none;
+}
