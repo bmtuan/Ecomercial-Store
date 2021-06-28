@@ -182,3 +182,6 @@ h6 {
 .checkout_btn a:hover {
   background: #333;
 }
+a {
+  cursor: pointer;
+}

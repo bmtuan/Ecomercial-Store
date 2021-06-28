@@ -7,13 +7,7 @@
  */
 namespace MVC;
 use \Exception as Exception;
-/**
- * Class Controller, a port of MVC
- *
- * @author Mohammad Rahmani <rto1680@gmail.com>
- *
- * @package MVC
- */
+
 class Controller {
 
     /**

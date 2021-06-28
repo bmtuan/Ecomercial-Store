@@ -7,13 +7,6 @@
  */
 namespace Http;
 
-/**
- * Class Response an Http response
- *
- * @author Mohammad Rahmani <rto1680@gmail.com>
- *
- * @package Http
- */
 class Response {
 
     /**

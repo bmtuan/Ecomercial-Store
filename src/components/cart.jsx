@@ -59,11 +59,11 @@ class Cart extends Component {
   accept = (t) => {
     const today = new Date();
     const date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-    const status = 'Trong kho'
+    const status = '25'
     const data = {
       time: date,
       status: status,
-      total: (this.totalPrice + 2000)/2,
+      total: (this.totalPrice + 2000) / 2,
       username: this.state.username
     }
     console.log(data)
@@ -112,23 +112,34 @@ class Cart extends Component {
     toast.dismiss(t.id)
   }
   notify() {
-    toast((t) => (
-      <span>
-        Vui lòng xác nhận <b>thanh toán</b><br />
-        <button class='add-cart' onClick={() => this.accept(t)}>
-          Xác nhận
-        </button>
-        <button class='add-cart' onClick={() => this.dismiss(t)}>Hủy bỏ </button>
-      </span>
-    ), {
-      position: 'top-center',
-      duration: 10000,
-      style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
-      },
-    });
+    if (localStorage.getItem('token')) {
+      if (this.totalPrice == 0) {
+        toast.error('Giỏ hàng trống!!!!')
+        return
+      }
+      toast((t) => (
+        <span>
+          Vui lòng xác nhận <b>thanh toán</b><br />
+          <button class='add-cart' onClick={() => this.accept(t)}>
+            Xác nhận
+          </button>
+          <button class='add-cart' onClick={() => this.dismiss(t)}>Hủy bỏ </button>
+        </span>
+      ), {
+        position: 'top-center',
+        duration: 10000,
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return
+    }
+    else {
+      toast.error('Thanh toán không thành công!! Vui lòng đăng nhập!!')
+      return
+    }
   }
   render() {
     const listId = this.state.wish.filter((p) => p.username === this.state.username).map((p) => p)

@@ -2,7 +2,8 @@ import axios from "axios";
 import { Component } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { isEmpty, map } from "lodash";
-// import ProgressBar from 'react-bootstrap/ProgressBar'
+import { Button, Modal, ProgressBar } from "react-bootstrap";
+
 class MyAccount extends Component {
 	constructor(props) {
 		super(props)
@@ -12,7 +13,15 @@ class MyAccount extends Component {
 			address: localStorage.getItem('address'),
 			phone: localStorage.getItem('phone'),
 			orders: [],
+			show: false,
+			now: 25,
+			handleClose: () => this.setState({ show: false }),
+
 		}
+	}
+	handleShow = (e) => {
+		this.setState({ now: e })
+		this.setState({ show: true })
 	}
 	clear = (e) => {
 		e.preventDefault()
@@ -47,6 +56,12 @@ class MyAccount extends Component {
 	viewStatus = () => {
 		toast.success('Xem thành công!!!')
 	}
+	status(e) {
+		if (e == 25) return 'Trong kho'
+		if (e == 50) return 'Nhân viên đã lấy'
+		if (e == 75) return 'Đang giao'
+		if (e == 100) return 'Hoàn thành'
+	}
 	render() {
 		// const name = localStorage.getItem('name')
 		const username = localStorage.getItem('username')
@@ -54,7 +69,17 @@ class MyAccount extends Component {
 		const listOrder = orders.filter((p) => p.username === username)
 		return (
 			<div>
-				{/* {console.log(this.state.info)} */}
+				<Modal show={this.state.show} onHide={this.state.handleClose}>
+					<Modal.Header>
+						<Modal.Title>Tình trạng đơn hàng</Modal.Title>
+					</Modal.Header>
+					<Modal.Body><ProgressBar now={this.state.now} label={this.status(this.state.now)} /></Modal.Body>
+					<Modal.Footer>
+						<Button class='add-cart' variant="secondary" onClick={this.state.handleClose}>
+							Đóng
+						</Button>
+					</Modal.Footer>
+				</Modal>
 				<div className="breadcrumb-section">
 					<Toaster position='top-left'></Toaster>
 					<div className="breadcrumb-wrapper">
@@ -101,10 +126,10 @@ class MyAccount extends Component {
 												<tbody>
 													{!isEmpty(listOrder) && map(listOrder, (p, index) => (
 														<tr>
-															<td>{index}</td>
+															<td>{index + 1}</td>
 															<td>{p?.time}</td>
 															<td>{p?.total / 1000}.000VND</td>
-															<td><button className="add-cart" onClick={() => this.viewStatus()}>Xem</button></td>
+															<td><button className="add-cart" onClick={(e) => this.handleShow(p?.status)}>Xem</button></td>
 														</tr>
 													))}
 												</tbody>

@@ -180,6 +180,7 @@ class Detail extends Component {
     })
   }
   handleOnClick = (e) => {
+    if (this.state.token){
     toast.success('Bình luận thành công!!!')
     const arr = this.state.reviews
     const cmt = {
@@ -209,6 +210,10 @@ class Detail extends Component {
       this.setState({
         comment: ''
       })
+    }
+    else {
+      toast.error('Vui lòng đăng nhập để bình luận!!!')
+    }
   }
   render() {
     const settings = {

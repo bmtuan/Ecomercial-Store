@@ -121,8 +121,8 @@ class WishList extends Component {
                           {!isEmpty(listId) && !isEmpty(product) && map(listId, (id) => (
                             <tr>
                               <td className="product_remove" ><button class='add-cart' onClick={(e) => this.deleteWish(id.id)}><i class="fas fa-trash"></i></button></td>
-                              <td className="product_thumb"><a href="product-details-default.html"><img src={product[id.id_product - 1]?.src} alt="" /></a></td>
-                              <td className="product_name"><a href="product-details-default.html">{product[id.id_product - 1]?.nameProduct}</a></td>
+                              <td className="product_thumb"><a href={"/detail/".concat(id.id_product)}><img src={product[id.id_product - 1]?.src} alt="" /></a></td>
+                              <td className="product_name"><a href={"/detail/".concat(id.id_product)}>{product[id.id_product - 1]?.nameProduct}</a></td>
                               <td className="product-price">{product[id.id_product - 1]?.salePrice}</td>
                               <td className="product_stock">Còn trong kho</td>
                               <td className="product_addcart"><a onClick={(e) => this.handleClickCart(id.id_product)} data-bs-toggle="modal" data-bs-target="#modalAddcart">Thêm vào giỏ</a></td>

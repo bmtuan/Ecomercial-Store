@@ -15,6 +15,9 @@ class ModelsCart extends Model{
         $stmt = $this->db->prepare('delete from cart where username = ?');
         return $stmt->execute(array_values($data));
     }
+    public function modified($username){
+
+    }
     public function create_cart($data)
     {
         $stmt = $this->db->prepare('

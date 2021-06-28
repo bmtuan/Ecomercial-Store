@@ -1,14 +1,5 @@
 <?php
 
-/**
- *  Config File For Handel Route, Database And Request
- * 
- *  Author: Mohammad Rahmani
- *  Email: rto1680@gmail.com
- *  WebPage: afgprogrammer.com
- *  
- */
-
 
 // Define Path Application
 define('SCRIPT', str_replace('\\', '/', rtrim(__DIR__, '/')) . '/');

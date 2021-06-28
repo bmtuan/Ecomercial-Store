@@ -7,13 +7,6 @@
  */
 namespace MVC;
 
-/**
- * Class Model, a port of MVC
- *
- * @author Mohammad Rahmani <rto1680@gmail.com>
- *
- * @package MVC
- */
 class Model {
 
     /**
