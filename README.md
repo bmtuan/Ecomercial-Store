@@ -1,11 +1,13 @@
 "# Ecomercial-Store" 
-Type: 
+Clone down this repository. You will need node and npm installed globally on your machine.
+Installation:
 ```
 npm install 
 ``` 
-to install npm package to run program.
-Then, type: 
+To Start Server:
 ```
-npm start 
-``` 
-to run demo.
+npm start
+```
+To Visit App:
+```
+localhost:3000
